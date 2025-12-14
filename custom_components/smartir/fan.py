@@ -256,8 +256,14 @@ class SmartIRFan(FanEntity, RestoreEntity):
         if percentage is None:
             percentage = ordered_list_item_to_percentage(
                 self._speed_list, self._last_on_speed or self._speed_list[0])
+            # track "on" state
+            self._speed = percentage_to_ordered_list_item(
+                self._speed_list, percentage)
+            self.async_write_ha_state()
 
-        await self.async_set_percentage(percentage)
+        # Hack to turn "on" the fan
+        command = self._commands['on']
+        await self._controller.send(command)
 
     async def async_turn_off(self):
         """Turn off the fan."""
