@@ -1,0 +1,23 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+logger:
+  default: info
+
+smartir:
+
+fan:
+  - platform: smartir
+    name: Living Room Fan
+    unique_id: living_room_fan
+    device_code: 999
+    controller_data: remote.rm4_controller
